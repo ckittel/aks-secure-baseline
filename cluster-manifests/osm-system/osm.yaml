@@ -17,7 +17,7 @@ data:
   prometheus_scraping: "true"
   tracing_enable: "false"
   use_https_ingress: "true"
-  service_cert_validity_duration: "24h"
+  service_cert_validity_duration: "168h"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -124,15 +124,18 @@ metadata:
     app: osm-controller
     meshName: osm
     enforceSingleMesh: "true"
+    pci-scope: out-of-scope
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: osm-controller
+      pci-scope: out-of-scope
   template:
     metadata:
       labels:
         app: osm-controller
+        pci-scope: out-of-scope
       annotations:
         prometheus.io/scrape: 'true'
         prometheus.io/port: '9091'

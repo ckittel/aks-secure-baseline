@@ -6,11 +6,14 @@ spec:
   selector:
     matchLabels:
       app: dummy-av
+      pci-scope: out-of-scope
   template:
     metadata:
       labels:
         app: dummy-av
+        pci-scope: out-of-scope
     spec:
+      automountServiceAccountToken: false
       containers:
       - name: dummy-av
         image: busybox
@@ -22,6 +25,10 @@ spec:
           requests:
             memory: "14Mi"
             cpu: "50m"
+        securityContext:
+          privileged: false
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
       nodeSelector:
         kubernetes.io/arch: amd64
         kubernetes.io/os: linux
